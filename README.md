@@ -1,4 +1,4 @@
-# spark-demo - Demo to show the use of some Spark features
+# spark-demo - Demo to show some Spark features
 ========
 
 - load files in csv, avro
