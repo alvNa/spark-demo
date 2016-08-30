@@ -9,8 +9,7 @@ import scala.io.Source
 
 /**
   * Created by anavarro on 4/08/16.
-  * ./spark-submit --master local --packages com.databricks:spark-csv_2.10:1.4.0,com.databricks:spark-avro_2.10:2.0.1 --class com.datiobd.demo.App PATH/spark-demo/target/spark-demo-1.0-SNAPSHOT.jar
-  */
+ */
 class SparkJob(val sqlContext: SQLContext) extends Serializable {
 
   private val props: Properties = new Properties()
