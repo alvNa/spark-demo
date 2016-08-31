@@ -9,7 +9,7 @@
 
 # Steps
 1. Install Spark in your machine from http://spark.apache.org/downloads.html
-- Copy users file from /src/resources/users.csv to your input directory
+- Copy csv files from /src/resources/*.csv to your input directory
 - Modify application.properties with your local paths
 - In the terminal go to {$SPARK_HOME}/bin
     -  cd {$SPARK_HOME}/bin     
