@@ -10,7 +10,6 @@ import org.apache.spark.sql.SQLContext
 object App {
 
   def main(args : Array[String]) {
-
     val master = args.length match {
       case x: Int if x > 0 => args(0)
       case _ => "local"
@@ -25,8 +24,8 @@ object App {
     val job = new SparkJob(sqlContext)
     job.run()
 
-    //println("Starting xD Demo Job ...!!")
-    //val xdJob = new CrossdataJob(sc)
-    //xdJob.run()
+    println("Starting xD Demo Job ...!!")
+    val xdJob = new CrossdataJob(sc)
+    xdJob.run()
   }
 }

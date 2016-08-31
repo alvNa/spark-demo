@@ -1,6 +1,8 @@
 package com.datiobd.demo.driver
 
+import com.datiobd.demo.AppConf
 import org.apache.spark._
+import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.crossdata._
 
 /**
@@ -10,23 +12,18 @@ class CrossdataJob(val sc: SparkContext) {
 
   private var xdContext : XDContext = null
 
-  def test() ={
-    xdContext.sql("SHOW TABLES").show(false)
-    val df = xdContext.sql("SELECT count(1) FROM users1")
-    df.show()
-  }
-
-  def test2() ={
-      println(">> writing..")
-      val parquetFile = xdContext.read.format("com.databricks.spark.csv").option("header", "true").option("inferSchema", "true").load("/home/anavarro/entorno/spark/data/users.csv")
+  def loadFiles() ={
+      println(">> 1. Load files using xD ..")
+      val path = AppConf.get("spark.demo.input")
+      val parquetFile = xdContext.read.format("com.databricks.spark.csv").option("header", "true").option("inferSchema", "true").load(path + "users.csv")
       parquetFile.registerTempTable("users")
-      //def df = parquetFile.write.partitionBy("last_name", "gender").save("users")
+      parquetFile.write.partitionBy("last_name", "gender").mode(SaveMode.Overwrite).save("users")
       xdContext.sql("select * from users").show()
+      xdContext.sql("SHOW TABLES").show(false)
   }
 
   def run() = {
     xdContext = new XDContext(sc)
-    test()
-    //test2()
+    loadFiles()
   }
 }

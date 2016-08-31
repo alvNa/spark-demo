@@ -7,7 +7,7 @@ import org.apache.spark.sql.types._
 /**
   * Created by anavarro on 25/08/16.
   */
-class CustomMean() extends UserDefinedAggregateFunction {
+class AvgUDAF() extends UserDefinedAggregateFunction {
 
   // Input Data Type Schema
   def inputSchema: StructType = StructType(Array(StructField("item", DoubleType)))
@@ -44,6 +44,6 @@ class CustomMean() extends UserDefinedAggregateFunction {
 
   // Called after all the entries are exhausted.
   def evaluate(buffer: Row) = {
-    buffer.getDouble(0)/buffer.getLong(1).toDouble
+    buffer.getDouble(0) / buffer.getLong(1).toDouble
   }
 }
