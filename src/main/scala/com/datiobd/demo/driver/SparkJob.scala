@@ -39,6 +39,10 @@ class SparkJob(val sqlContext: SQLContext) extends Serializable {
   def loadPartitionedFiles(): Unit = {
     println(">> 3. Load partitioned files")
     val path = AppConf.get("spark.demo.output")
+
+    val usersAll = sqlContext.read.load(path + "users1/")
+    usersAll.count
+
     val usersFem = sqlContext.read.load(path + "users1/gender=Female/**/*.parquet")
     usersFem.show
     usersFem.count
