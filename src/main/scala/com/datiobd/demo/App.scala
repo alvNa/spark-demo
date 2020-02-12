@@ -2,7 +2,7 @@ package com.datiobd.demo
 
 import com.datiobd.demo.driver.{CrossdataJob, SparkJob}
 import org.apache.spark.SparkContext
-import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.{SQLContext, SparkSession}
 
 /**   
   * @author ${user.name}
@@ -18,10 +18,10 @@ object App {
     //Initialising spark context
     println("Hello Spark!!")
     val sc = new SparkContext(master, "SparkDemo", System.getenv("SPARK_HOME"))
-    val sqlContext = SQLContext.getOrCreate(sc)
+    val spark = SparkSession.builder().getOrCreate()
 
     println("Starting Spark Demo Job ...!!")
-    val job = new SparkJob(sqlContext)
+    val job = new SparkJob(spark.sqlContext)
     job.run()
 
     println("Starting xD Demo Job ...!!")
