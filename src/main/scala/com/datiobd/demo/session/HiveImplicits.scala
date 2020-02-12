@@ -21,9 +21,8 @@ object HiveImplicits {
       }
     }
 
-    private def isValidSqlStatement(sqlText: String): Boolean = {
-      val statement = sqlText.split(" ").head.toUpperCase
-      allowedSqlStatements.contains(statement)
+    private def isValidSqlStatement(statement: String): Boolean = {
+      allowedSqlStatements.contains(statement.toUpperCase)
     }
   }
 }
