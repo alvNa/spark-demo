@@ -2,26 +2,29 @@ package com.datiobd.demo.driver
 
 import java.io.Serializable
 
-import com.datiobd.demo.AppConf
+import com.datiobd.demo.udf.AvgUDAF
+import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.{DataFrame, SQLContext, SaveMode}
 
 /**
-  * Created by anavarro on 4/08/16.
+ * Created by anavarro on 4/08/16.
  */
 class SparkJob(val sqlContext: SQLContext) extends Serializable {
 
   private var df: DataFrame = null
+  private lazy val config = ConfigFactory.load("application.conf")
+  private val pathFile = config.getString("spark.demo.input")
+  private val path = config.getString("spark.demo.output")
 
   def loadFiles(): Unit = {
     println(">> 1. Loading csv ...")
-    val pathFile = AppConf.get("spark.demo.input")
     df = sqlContext.read.format("com.databricks.spark.csv").option("header", "true").option("inferSchema", "true").load(pathFile + "users.csv")
     df.show()
   }
 
   def saveTables(): Unit = {
     println(">> 2. Partitioning table ...")
-    val path = AppConf.get("spark.demo.output")
+
     df.write.partitionBy("gender", "first_name").mode(SaveMode.Overwrite).save(path + "users1")
     df.write.partitionBy("last_name", "gender").mode(SaveMode.Overwrite).save(path + "users2")
     //Saving in avro format
@@ -38,7 +41,6 @@ class SparkJob(val sqlContext: SQLContext) extends Serializable {
 
   def loadPartitionedFiles(): Unit = {
     println(">> 3. Load partitioned files")
-    val path = AppConf.get("spark.demo.output")
 
     val usersAll = sqlContext.read.load(path + "users1/")
     usersAll.count

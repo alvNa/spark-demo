@@ -1,4 +1,4 @@
-package com.datiobd.demo.driver
+package com.datiobd.demo.udf
 
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.expressions.{MutableAggregationBuffer, UserDefinedAggregateFunction}
